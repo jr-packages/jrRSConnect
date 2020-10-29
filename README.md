@@ -1,17 +1,14 @@
+# jrRSConnect
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# jrIntroduction
-
-The goal of jrIntroduction is to …
+The goal of jrRSConnect is to learn how to use RStudio Connect effectively
 
 ## Installation
 
-You can install jrIntroduction from github with:
+You can install jrRSConnect from github with:
 
-``` r
+``` r 
 install.packages("devtools")
-devtools::install_github("jr-packages/jrIntroduction")
+devtools::install_github("jr-packages/jrRSConnect")
 ```
 
 ## Example
