@@ -1,0 +1,32 @@
+---
+output: github_document
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# jrRSConnect
+
+The goal of jrRSConnect is to learn how to use RStudio Connect effectively
+
+## Installation
+
+You can install jrRSConnect from github with:
+
+```{r gh-installation, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("jr-packages/jrRSConnect")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+## basic example code
+```

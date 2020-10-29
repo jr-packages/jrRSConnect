@@ -1,0 +1,28 @@
+Type: Package
+Package: jrRSConnect
+Title: Jumping Rivers: Introduction to RStudio Connect
+Version: 0.0.1
+Authors@R: 
+    person(given = "Jumping",
+           family = "Rivers",
+           role = c("aut", "cre"),
+           email = "training@jumpingrivers.com")
+Description: Practicals and data sets for the Introduction to RStudio Connect
+    course run by Jumping Rivers.
+License: GPL-3
+URL: https://www.jumpingrivers.com/
+Depends:
+    R (>= 3.2.0)
+Imports:
+    knitr
+Suggests:
+    formatR,
+    knitr,
+    lintr,
+    rmarkdown,
+    testthat,
+    tufte
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+RoxygenNote: 7.0.2
