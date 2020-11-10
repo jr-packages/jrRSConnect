@@ -1,0 +1,219 @@
+---
+title: "Practical 1"
+author: "Jumping Rivers"
+header-includes:
+  - \usepackage{../inst/jrStyle}
+
+output:
+  bookdown::tufte_book2:
+    latex_engine: xelatex
+    toc: false
+    highlight: tango
+classoption: a4paper,justified,openany
+vignette: >
+  %\VignetteIndexEntry{Practical 1}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r include = FALSE}
+jrRSConnect:::make_preamble()
+```
+
+# Getting Started
+
+## Accessing the training machine
+
+\sloppy
+To help facilitate this practical we have provisioned a Virtual Machine (VM)
+for us all to work from. The URL of this machine will be of the form
+`id.jumpingrivers.training`. Your trainer will circulate this URL during the
+session.
+
+
+\indent Once you have the URL, visit the VM's welcome page (the circulated URL
+suffixed with `/welcome`, and so a url of the form
+`id.jumpingrivers.training/welcome`). Enter your email address and the supplied
+master password, as illustrated in \cref{fig:reveal-login}. This will reveal a
+username and password for you to log-in to the training enviornment.
+
+
+\indent If you lose your username and password at any point during the
+training: don't worry, re-entering your email address and the master password
+on the welcome page will retrieve your login for the training machine.
+
+\begin{marginfigure}[-8.75cm]
+  \centering
+  \includegraphics[width=\linewidth]{../inst/reveal-login.png}
+  \captionof{figure}{Revealing login details on the welcome page.}
+  \label{fig:reveal-login}
+\end{marginfigure}
+
+\indent Head over to the training enviornment---either with the circulated URL,
+or by clicking the "Training Environment" link visible in the welcome page
+(\cref{fig:reveal-login}). Here you will be prompted for log in details
+(\cref{fig:training-login}). Use the details that were revealed to you on the
+welcome page.
+
+\begin{marginfigure}[-2cm]
+  \centering
+  \includegraphics[width=\linewidth]{../inst/training-login.png}
+  \captionof{figure}{Entering our revealed login details on the training
+  machine.}
+  \label{fig:training-login}
+\end{marginfigure}
+
+\indent After authenticating with the training machine you will enter a
+homepage, at which you will be able to start a new RStudio session, as
+demonstrated in \cref{fig:new-session,fig:new-rstudio}. Having done so you will
+be rewarded with the familiar sight of an RStudio IDE.
+
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=\linewidth]{../inst/new-session.png}
+  \captionof{figure}{Starting a new session within the training VM.}
+  \label{fig:new-session}
+\end{marginfigure}
+
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=\linewidth]{../inst/new-rstudio.png}
+  \captionof{figure}{Instantiating an RStudio session within the VM.}
+  \label{fig:new-rstudio}
+\end{marginfigure}
+
+## Accessing our test RStudio Connect
+
+Along with the training machine we have deployed a sandpit RStudio Connect
+service for us to have a play around in. This Connect service is accessible as
+the training URL, appended with `/connect`: so a URL of the form
+`id.jumpingrivers.training/connect`.
+
+Use your username and login, as revealed in \cref{fig:reveal-login}, to
+authenticate against this Connect server.
+
+# Publishing Manually: Hello, User!
+
+In this example we are going to walk through the steps of publishing an `Rmd`
+file from RStudio.
+
+\marginpar{You can create an empty R Markdown file with the \texttt{Create
+Empty Document} button in the bottom left of the \texttt{New R Markdown}
+window.}
+
+1. Create a new `Rmd` file in RStudio with `File -> New File -> Rmarkdown`.
+
+2. Into this new file paste the following code, being mindful to preserve any
+   indentation (particularly in the yaml front matter):
+
+\begin{shaded}
+\begin{verbatim}
+`r paste(readLines('../inst/hello-user.Rmd'), collapse = '\n')`
+\end{verbatim}
+\end{shaded}
+
+3. Verify that you can render this `Rmd` with the knit button---if you haven't
+   done so already, at this point you will be prompted to save your file.
+
+\begin{marginfigure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{../inst/knit.png}
+  \captionof{figure}{The knit button in the RStudio IDE.}
+  \label{fig:knit}
+\end{marginfigure}
+
+4. Click the blue publish icon in the Connect IDE. Follow the steps to publish
+   the content to the Connect server associated with this training machine.
+   The Connect server's public URL is the same as the URL of the training
+   machine (of the form `id.jumpingrivers.training`). You will need your
+   username uXXX and its corresponding password to perform this step.
+
+5. Log in to the Connect service with your username and password and verify that
+   you can access your report.
+
+# Detecting the current user
+
+In this example we are going to publish a shiny application to our Connect
+server which accesses the username of the content viewer, and displays output
+to this user conditional on their username.
+
+1. Create a new shiny app in RStudio with `File -> New File -> Shiny Web App`.
+   Choose an application name, and choose "Single File (app.R)" for the
+   application type.
+
+2. Delete the pre-populated content of `app.R` and paste in the following
+   code:
+
+```{r eval=FALSE, tidy=FALSE, code.cap="Code to create a shiny app that greets the current user.", label="shiny"}
+library("shiny")
+
+# Define UI for app
+ui <- fluidPage(
+  # App title ----
+  titlePanel("Shiny ID"),
+  textOutput("welcome")
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output, session) {
+  client_email_address = session$user
+
+  output$welcome <- renderText({
+    paste0("Hi, ", client_email_address, ".")
+  })
+
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```
+
+3. Click the blue publish button in the RStudio IDE and follow the steps to
+   deploy this content to Connect. Verify that you can access this content and
+   that it correctly displays your username.
+
+4. Alter your app code as copied from \cref{chk:shiny} to conitionally display
+   different output for your user. Here's one I made earlier (though try not to
+   just copy and paste this example!).
+
+```{r eval=FALSE, code.cap="Altering the code in \\cref{chk:shiny} to conditionally show output based on the current user."}
+library("shiny")
+
+# Define UI for app
+ui <- fluidPage(
+    # App title ----
+    titlePanel("Shiny ID"),
+    textOutput("welcome"),
+    imageOutput("image")
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output, session) {
+    client_email_address = session$user
+
+    output$welcome <- renderText({
+        paste0("Hi, ", client_email_address, ".")
+    })
+
+    output$image = renderImage({
+        outfile <- tempfile(fileext = ".png")
+        # Generate a png
+        png(outfile,
+            width = 400,
+            height = 400)
+
+        if (client_email_address == "u047") {
+            hist(rnorm(100))
+        } else {
+            hist(runif(100))
+        }
+        dev.off()
+
+        # Return a list
+        list(src = outfile,
+             alt = "Alt text")
+        }, deleteFile = TRUE)
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
+```

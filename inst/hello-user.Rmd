@@ -1,0 +1,32 @@
+---
+title: Hello, user!
+params:
+    user: name
+    x: 5
+---
+
+# Hello, `r params$user`
+
+This is a most basic example or an R markdown document with
+a parameter. The document is updated upon deployment, or
+when a publisher modifies the parameter using the Connect
+user interface.  A later example will show you how to
+access a real username within a running Shiny application.
+
+The two parameters configurable for this document (with
+current values) are:
+
+    user = `r params$user`
+    x = `r params$x`
+
+```{r}
+# R code can be executed in these blocks as normal
+x2 = params$x * params$x
+```
+
+These can be used anywhere in the markdown document. The
+value of $x$ is $`r params$x`$ and the value of $x^2$ is
+$`r x2`$.
+
+Thank you for visiting this document, `r params$user`.
+
