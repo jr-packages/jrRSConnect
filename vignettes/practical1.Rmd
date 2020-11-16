@@ -109,6 +109,7 @@ window.}
 \begin{verbatim}
 `r paste(readLines('../inst/hello-user.Rmd'), collapse = '\n')`
 \end{verbatim}
+\vspace{-1em}
 \end{shaded}
 
 3. Verify that you can render this `Rmd` with the knit button---if you haven't

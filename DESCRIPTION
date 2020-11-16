@@ -1,7 +1,7 @@
 Type: Package
 Package: jrRSConnect
 Title: Jumping Rivers: Introduction to RStudio Connect
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     person(given = "Jumping",
            family = "Rivers",
