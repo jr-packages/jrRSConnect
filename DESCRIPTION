@@ -1,7 +1,7 @@
 Type: Package
 Package: jrRSConnect
 Title: Jumping Rivers: Introduction to RStudio Connect
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
     person(given = "Jumping",
            family = "Rivers",
@@ -14,8 +14,10 @@ URL: https://www.jumpingrivers.com/
 Depends:
     R (>= 3.2.0)
 Imports:
-    knitr
+    knitr,
+    stringi
 Suggests:
+    bookdown,
     formatR,
     lintr,
     rmarkdown,
@@ -24,4 +26,4 @@ Suggests:
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1

@@ -1,0 +1,265 @@
+%------------------------------------------------------------------------------
+% Packages
+\usepackage{alltt}
+% Bold math fonts
+\usepackage{bm}
+\usepackage{caption}
+% Must be loaded after hyperref. Use \cref for easier references
+% Options: Capitalise references but doesn't abbreviate to fig. tab. etc.
+% Link word Figure, Table etc. not just the corresponding number
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}
+\usepackage{colortbl}
+\usepackage{etoolbox}
+\usepackage{float}
+\usepackage{fontspec}
+\usepackage{framed}
+\usepackage{microtype}
+\usepackage{newfloat}
+\usepackage[parfill]{parskip}
+% Formatting of subfigures
+\usepackage{subfig}
+\usepackage{tabu}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+%-----------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Allow images to be links when compiling with xelatex
+% https://tex.stackexchange.com/a/85103/181010
+\ifxetex
+  \usepackage{letltxmacro}
+  \setlength{\XeTeXLinkMargin}{1pt}
+  \LetLtxMacro\SavedIncludeGraphics\includegraphics
+  \def\includegraphics#1#{% #1 catches optional stuff (star/opt. arg.)
+    \IncludeGraphicsAux{#1}%
+  }%
+  \newcommand*{\IncludeGraphicsAux}[2]{%
+    \XeTeXLinkBox{%
+      \SavedIncludeGraphics#1{#2}%
+    }%
+  }%
+\fi
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% chapter format
+\makeatletter
+
+% Spacing around chapters, sections, subsections
+\titlespacing*{\chapter}{0pt}{40pt}{30pt}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus.2ex}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Paragraph indentation
+
+% Paragraph indentation and separation for normal text
+\renewcommand{\@tufte@reset@par}{%
+  \setlength{\RaggedRightParindent}{0.0pc}%
+  \setlength{\JustifyingParindent}{0.0pc}%
+  \setlength{\parindent}{0pc}%
+  \setlength{\parskip}{2.5pt}%
+}
+\@tufte@reset@par
+
+% Paragraph indentation and separation for marginal text
+\renewcommand{\@tufte@margin@par}{%
+  \setlength{\RaggedRightParindent}{0.0pc}%
+  \setlength{\JustifyingParindent}{0.0pc}%
+  \setlength{\parindent}{0.0pc}%
+  \setlength{\parskip}{10pt}%
+}
+\makeatother
+
+% Change size of \indent
+\renewcommand{\indent}{\hspace*{10pt}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Remove paragraph indentation after code chunks
+\makeatletter
+\newcommand*{\@doendeq}{%
+  \everypar{{\setbox\z@\lastbox}\everypar{}}%
+}
+
+\newenvironment{knitrout}{\setlength{\topsep}{0mm}}{\aftergroup\@doendeq%
+}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Colours
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+
+\definecolor{CTsemi}{gray}{0.55}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Define the kframe enviornment
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\makeatletter
+\patchcmd{\ttlh@hang}{\parindent\z@}{\parindent\z@\leavevmode}{}{}
+\patchcmd{\ttlh@hang}{\noindent}{}{}{}
+\makeatother
+\setcounter{secnumdepth}{1}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% All things font
+
+% Avoids font warning using xelatex (and make the headings a bit nicer)
+\setmainfont[SmallCapsFeatures={LetterSpace=10}]{Linux Libertine O}
+\setmainfont[SmallCapsFeatures={LetterSpace=15}]{Linux Libertine O}
+
+% Fix spacing on \newthought{}
+% https://tex.stackexchange.com/questions/18947/letterspacing-minion-pro-and-tufte-latex-problem-with-running-header
+\setmainfont{Linux Libertine O}
+
+% Nicer spacing for allcaps and smallcaps
+\renewcommand\allcapsspacing[1]{{\addfontfeature{LetterSpace=15}#1}}
+\renewcommand\smallcapsspacing[1]{{\addfontfeature{LetterSpace=10}#1}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Add small inline images
+\newcommand*{\inline}[1]{%
+  \raisebox{-.3\baselineskip}{%
+    \includegraphics[
+      height=\baselineskip,
+      width=\baselineskip,
+      keepaspectratio,
+    ]{#1}%
+    }%
+  }
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Fancy headers
+\pagestyle{fancy}
+
+% Remove hrule underneath header
+\renewcommand{\headrulewidth}{0pt}
+% See Figure 3 of fancyhdr documentation
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+
+% Clear current headers
+\fancyhf{}
+
+
+% Left even
+\fancyhead[LE]{\smallcapsspacing{%
+                \scshape{\thepage}\quad%
+                \href{https://jumpingrivers.com}{jumpingrivers.com}}}
+% Right odd
+\fancyhead[RO]{\smallcapsspacing{\scshape{\rightmark\quad\thepage}}}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Redefine Tufte \maketitle to not capitalise publisher
+\renewcommand{\maketitlepage}[0]{%
+  \cleardoublepage%
+  {%
+  \sffamily%
+  \begin{fullwidth}%
+  \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessauthor}}%
+  \vspace{11.5pc}%
+  \fontsize{36}{40}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}%
+  \vfill%
+  \fontsize{14}{16}\selectfont\par\noindent{\thanklesspublisher}%
+  \end{fullwidth}%
+  }
+  \thispagestyle{empty}%
+  \clearpage%
+}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Formatting of chapters, sections, subsections etc.
+
+\newlength\TitleOverhang
+\setlength\TitleOverhang{2.5mm}
+
+% Define titlehang to let sections etc protrude margin
+\newcommand\titlehang[1]{%
+  \llap{%
+    #1\hspace{\TitleOverhang}
+  }%
+}
+
+% Big 'ol chapter number
+\newfontfamily\chapterNumber[Scale=6]{Linux Libertine O}
+
+% Format chapter
+\titleformat{\chapter}%
+[display]% shape
+{\relax}% format applied to label+text
+{\mbox{}\marginpar{\vspace*{-3\baselineskip}%
+  \color{CTsemi}\chapterNumber\thechapter}}% label
+{0em}% horizontal separation between label and title body
+{\raggedright\slshape\huge}% before the title body
+[\normalsize\vspace*{.8\baselineskip}\titlerule]% after the title body
+
+% Format section
+\titleformat{\section}%
+[block]% shape
+{\Large}% format applied to label+text
+{\titlehang\thesection}% label with titlehang
+{0em}% horizontal separation between label and title body
+{\slshape}% code before the title body
+[]% after the title body
+
+% Format subsection
+\titleformat{\subsection}%
+[block]% shape
+{\large}% format applied to label+text
+{\titlehang\thesubsection}% label with titlehang
+{0em}% horizontal separation between label and title body
+{\slshape}% before the title body
+[]% after the title body
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+% Make a new chunk float to attach label and caption to
+\DeclareFloatingEnvironment[fileext=chk,
+                            name=Chunk,
+                            placement=H,
+                            within=chapter]{chunk}
+\crefname{chunk}{Chunk}{Chunks}
+\Crefname{chunk}{Chunk}{Chunks}
+\captionsetup[chunk]{font=small}
+%------------------------------------------------------------------------------
